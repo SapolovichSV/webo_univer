@@ -1,0 +1,16 @@
+{%extends 'lab1django/base.html'%}
+{%block page_name%}Индекс книг{%endblock%}
+{%block content%}
+{%if oldest_books%}
+<ul>
+{%for book in oldest_books%}
+<h2>
+	Книга {{book.name}}
+	{%include 'lab1django/detail.html'%}
+</h2>
+{%endfor%}
+</ul>
+{%else%}
+<h2>Нет книг</h2>
+{%endif%}
+{%endblock%}

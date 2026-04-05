@@ -1,0 +1,7 @@
+{%load book_tags%}
+<p>Подробнее о книге</p>
+<h3>{{book.author}}</h3>
+<h3>{{book.publish_date}}</h3>
+<h3>{{book.rate|to_stars}}</h3>
+<h3>{{book.bestseller|bestseller_label}}</h3>
+<h3> Популярность книги {%popular book.rate%}</h3>
