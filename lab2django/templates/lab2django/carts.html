@@ -1,0 +1,160 @@
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f8;
+        margin: 0;
+        padding: 30px;
+        color: #222;
+    }
+
+    .page-title {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #2c3e50;
+    }
+
+    .cart-list {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .cart-card {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+        border-left: 6px solid #3498db;
+    }
+
+    .cart-header {
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .cart-header h2 {
+        margin: 0 0 8px;
+        color: #3498db;
+    }
+
+    .cart-info {
+        margin: 6px 0;
+        color: #555;
+    }
+
+    .customer {
+        background: #eef6ff;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 18px;
+    }
+
+    .products-title {
+        margin-bottom: 12px;
+        color: #2c3e50;
+    }
+
+    .product-card {
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 14px;
+        margin-bottom: 12px;
+    }
+
+    .product-name {
+        font-weight: bold;
+        font-size: 18px;
+        color: #2c3e50;
+        margin-bottom: 6px;
+    }
+
+    .product-detail {
+        margin: 4px 0;
+        color: #555;
+    }
+
+    .price {
+        color: #27ae60;
+        font-weight: bold;
+    }
+
+    .quantity {
+        color: #e67e22;
+        font-weight: bold;
+    }
+
+    .empty-message {
+        text-align: center;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        color: #777;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+</style>
+
+<h1 class="page-title">Carts list</h1>
+
+{% if carts %}
+    <div class="cart-list">
+        {% for cart in carts %}
+            <div class="cart-card">
+
+                <div class="cart-header">
+                    <h2>Cart #{{ cart.id }}</h2>
+                    <p class="cart-info">
+                        Created at: {{ cart.created_at }}
+                    </p>
+                </div>
+
+                <div class="customer">
+                    <p class="cart-info">
+                        <strong>Cart owner:</strong> {{ cart.customer }}
+                    </p>
+                    <p class="cart-info">
+                        <strong>Customer created at:</strong> {{ cart.customer.created_at }}
+                    </p>
+                </div>
+
+                <h3 class="products-title">Products:</h3>
+
+                {% for item in cart.productincart_set.all %}
+                    <div class="product-card">
+                        <p class="product-name">
+                            {{ item.product.name }}
+                        </p>
+
+                        <p class="product-detail">
+                            Price:
+                            <span class="price">{{ item.product.price }}</span>
+                        </p>
+
+                        <p class="product-detail">
+                            Quantity:
+                            <span class="quantity">{{ item.quantity }}</span>
+                        </p>
+
+                        <p class="product-detail">
+                            Total:
+                            <span class="price">
+                                {{ item.quantity }} × {{ item.product.price }}
+                            </span>
+                        </p>
+
+                        <p class="product-detail">
+                            Product creation date: {{ item.product.created_at }}
+                        </p>
+                    </div>
+                {% empty %}
+                    <p class="cart-info">No products in this cart</p>
+                {% endfor %}
+
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="empty-message">No carts to display</p>
+{% endif %}
